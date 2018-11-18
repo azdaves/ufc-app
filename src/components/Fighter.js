@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Fighter extends Component {
 
-    render() { 
+    
+        state = {
+            fighters: []
+        };
+
+        componentDidMount() {
+            axios.get('http://ufc-data-api.ufc.com/api/v3/us/fighters')
+            .then(res => {
+                console.log(res);
+                this.setState({ fighters: res.data });
+            })
+        }
+
+        render() { 
         return ( <div>
-        <h1>UFC</h1>
+        <ul>{this.state.fighters.map(fighter => <li key={fighter}>{fighter.first_name} {fighter.last_name}</li>)}</ul>
       </div> );
     }
 }
